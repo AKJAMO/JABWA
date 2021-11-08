@@ -6841,11 +6841,6 @@ bot_data:hdel(ban_id.."flooding:settings:"..msg.chat_id_ ,"flood")
 send(msg.chat_id_, msg.id_,' ☽ تم فتح التكرار')
 end
 
-if text == ("مسح المطورين") and Devban(msg) then
-bot_data:del(ban_id..'Sudo:User')
-send(msg.chat_id_, msg.id_, "\n ☽ تم مسح قائمة المطورين  ")
-end
-
 if text == 'الملفات' and Devban(msg) then
 t = ' ☽ ملفات السورس صعيدي↓\n ⩹┉┉┉┉⊶❲𖥳 𝐒𝐀𝐈𝐃𝐈 𖥳❳⊷┉┉┉┉⩺ \n'
 i = 0
@@ -7401,8 +7396,11 @@ end
 if text == 'المنشئين الاساسين' and CoSu(msg) then
 local list = bot_data:smembers(ban_id..'Basic:Constructor'..msg.chat_id_)
 t = "\n ☽ قائمة المنشئين الاساسين \n⩹┉┉┉┉⊶❲𖥳 𝐒𝐀𝐈𝐃𝐈 𖥳❳⊷┉┉┉┉⩺\n"
+keyboard = {
+{{text = 'مسح الاساسين',callback_data=msg.sender_user_id_.."DelLsta".."99"}},
+}
 for k,v in pairs(list) do
-local username = bot_data:get(ban_id.."user:Name" .. v)
+local username = database:get(bot_id.."user:Name" .. v)
 if username then
 t = t..""..k.."- ([@"..username.."])\n"
 else
@@ -7431,11 +7429,7 @@ t = " ☽ لا يوجد منشئين اساسين"
 end
 send(msg.chat_id_, msg.id_, t)
 end
-if text == ("مسح المطورين") and SudoBot(msg) then
-bot_data:del(ban_id..'Sudo:User')
-send(msg.chat_id_, msg.id_, "\n ☽ تم مسح قائمة المطورين")
-end
-if text == ("المطورين") and SudoBot(msg) then
+if text == ("المطورين") and DevGOLDW(msg) then
 local list = bot_data:smembers(ban_id..'Sudo:User')
 t = "\n ☽ قائمة مطورين البوت\n*⩹┉┉┉┉⊶❲𖥳 𝐒𝐀𝐈𝐃𝐈 𖥳❳⊷┉┉┉┉⩺*\n"
 keyboard = {
@@ -7455,6 +7449,10 @@ keyboard = nil
 end
 local msg_id = msg.id_/2097152/0.5
 send_inline_key(msg.chat_id_,t,nil,keyboard,msg_id)
+end
+if text == ("مسح المطورين") and DevGOLDW(msg) then
+bot_data:del(ban_id..'Sudo:User')
+send(msg.chat_id_, msg.id_, "\n ☽ تم مسح قائمة المطورين  ")
 end
 if text == ("رفع منشئ اساسي") and msg.reply_to_message_id_ and CoSu(msg) then
 if AddChannel(msg.sender_user_id_) == false then
