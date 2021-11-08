@@ -16943,6 +16943,20 @@ keyboard.inline_keyboard = {{{text = '• رجوع •',callback_data=data.sende
 https.request("https://api.telegram.org/bot"..token..'/editMessageText?chat_id='..Chat_id..'&text='..URL.escape("*تم رفعه مطور ثانوي【 ✅ 】*")..'&message_id='..msg_idd..'&parse_mode=markdown&disable_web_page_preview=true&reply_markup='..JSON.encode(keyboard))
 return false
 end
+if Text and Text:match("^(%d+)Jabpwa_2(.*)$") then
+local notId  = Text:match("(%d+)")  
+local userid = Text:gsub('Jabpwa_2',''):gsub(notId,'')
+if tonumber(data.sender_user_id_) ~= tonumber(notId) then  
+local notText ='✘ عذرا الاوامر هذه لا تخصك'
+https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
+return false
+end
+bot_data:sadd(ban_id.."msa3d:ban", userid)
+keyboard = {} 
+keyboard.inline_keyboard = {{{text = '• رجوع •',callback_data=data.sender_user_id_.."Bbk"..userid}},{{text = '【 𝗦𝗼𝘂𝗿𝗰𝗲 𝗦𝗮𝗶𝗱𝗶 】', url="t.me/S_a_i_d_i"}},}
+https.request("https://api.telegram.org/bot"..token..'/editMessageText?chat_id='..Chat_id..'&text='..URL.escape("*تم رفعه مساعد بنجاح【 ✅ 】*")..'&message_id='..msg_idd..'&parse_mode=markdown&disable_web_page_preview=true&reply_markup='..JSON.encode(keyboard))
+return false
+end
 if Text == '/ven3' then
 if not CoSu(data) then
 local notText = '✘ عذرا الاوامر هذه لا تخصك'
@@ -17196,6 +17210,7 @@ else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
 {{text ='• مطور ثانوي',callback_data=data.sender_user_id_.."Jabpwa"..userid}},
+{{text ='• مساعد',callback_data=data.sender_user_id_.."Jabpwa_2"..userid}},
 {{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text ='• ادمن',callback_data=data.sender_user_id_.."mod"..userid}},
 {{text ='• مدير',callback_data=data.sender_user_id_.."Manager"..userid}},
@@ -17240,6 +17255,7 @@ else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
 {{text ='• مطور ثانوي',callback_data=data.sender_user_id_.."Jabpwa"..userid}},
+{{text ='• مساعد',callback_data=data.sender_user_id_.."Jabpwa_2"..userid}},
 {{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text ='• ادمن',callback_data=data.sender_user_id_.."mod"..userid}},
 {{text ='• مدير',callback_data=data.sender_user_id_.."Manager"..userid}},
@@ -17286,6 +17302,7 @@ else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
 {{text ='• مطور ثانوي',callback_data=data.sender_user_id_.."Jabpwa"..userid}},
+{{text ='• مساعد',callback_data=data.sender_user_id_.."Jabpwa_2"..userid}},
 {{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text ='• ادمن',callback_data=data.sender_user_id_.."mod"..userid}},
 {{text ='• مدير',callback_data=data.sender_user_id_.."Manager"..userid}},
