@@ -16939,9 +16939,7 @@ return false
 end
 bot_data:sadd(ban_id.."Dev:ban:2", userid)
 keyboard = {} 
-keyboard.inline_keyboard = {
-{{text = '【 𝗦𝗼𝘂𝗿𝗰𝗲 𝗦𝗮𝗶𝗱𝗶 】', url="t.me/S_a_i_d_i"}},
-}
+keyboard.inline_keyboard = {{{text = '• رجوع •',callback_data=data.sender_user_id_.."Bbk"..userid}},{{text = '【 𝗦𝗼𝘂𝗿𝗰𝗲 𝗦𝗮𝗶𝗱𝗶 】', url="t.me/S_a_i_d_i"}},}
 https.request("https://api.telegram.org/bot"..token..'/editMessageText?chat_id='..Chat_id..'&text='..URL.escape("*تم رفعه مطور ثانوي【 ✅ 】*")..'&message_id='..msg_idd..'&parse_mode=markdown&disable_web_page_preview=true&reply_markup='..JSON.encode(keyboard))
 return false
 end
