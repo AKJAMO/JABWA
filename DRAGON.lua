@@ -7431,23 +7431,31 @@ t = " ☽ لا يوجد منشئين اساسين"
 end
 send(msg.chat_id_, msg.id_, t)
 end
+if text == ("مسح المطورين") and SudoBot(msg) then
+bot_data:del(ban_id..'Sudo:User')
+send(msg.chat_id_, msg.id_, "\n ☽ تم مسح قائمة المطورين")
+end
 if text == ("المطورين") and SudoBot(msg) then
-local list = database:smembers(bot_id..'Sudo:User')
-t = "\n ☽ قائمة المطورين \n⩹┉┉┉┉⊶❲𖥳 𝐒𝐀𝐈𝐃𝐈 𖥳❳⊷┉┉┉┉⩺\n"
+local list = bot_data:smembers(ban_id..'Sudo:User')
+t = "\n ☽ قائمة مطورين البوت\n*⩹┉┉┉┉⊶❲𖥳 𝐒𝐀𝐈𝐃𝐈 𖥳❳⊷┉┉┉┉⩺*\n"
+keyboard = {
+{{text = 'مسح المطورين',callback_data=msg.sender_user_id_.."DelLsta".."55"}},
+}
 for k,v in pairs(list) do
 local username = database:get(bot_id.."user:Name" .. v)
 if username then
 t = t..""..k.."- ([@"..username.."])\n"
 else
-t = t..""..k.."- ↝ '..v..' ↜\n"
+t = t..""..k.."- (`"..v.."`)\n"
 end
 end
 if #list == 0 then
 t = " ☽ لا يوجد مطورين"
+keyboard = nil
 end
-send(msg.chat_id_, msg.id_, t)
+local msg_id = msg.id_/2097152/0.5
+send_inline_key(msg.chat_id_,t,nil,keyboard,msg_id)
 end
-  
 if text == ("رفع منشئ اساسي") and msg.reply_to_message_id_ and CoSu(msg) then
 if AddChannel(msg.sender_user_id_) == false then
 local textchuser = bot_data:get(ban_id..'text:ch:user')
@@ -16943,9 +16951,9 @@ keyboard.inline_keyboard = {{{text = '• رجوع •',callback_data=data.sende
 https.request("https://api.telegram.org/bot"..token..'/editMessageText?chat_id='..Chat_id..'&text='..URL.escape("*تم رفعه مطور ثانوي【 ✅ 】*")..'&message_id='..msg_idd..'&parse_mode=markdown&disable_web_page_preview=true&reply_markup='..JSON.encode(keyboard))
 return false
 end
-if Text and Text:match("^(%d+)Jabpwa_2(.*)$") then
+if Text and Text:match("^(%d+)Japwa(.*)$") then
 local notId  = Text:match("(%d+)")  
-local userid = Text:gsub('Jabpwa_2',''):gsub(notId,'')
+local userid = Text:gsub('Japwa',''):gsub(notId,'')
 if tonumber(data.sender_user_id_) ~= tonumber(notId) then  
 local notText ='✘ عذرا الاوامر هذه لا تخصك'
 https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
@@ -17210,8 +17218,8 @@ else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
 {{text ='• مطور ثانوي',callback_data=data.sender_user_id_.."Jabpwa"..userid}},
-{{text ='• مساعد',callback_data=data.sender_user_id_.."Jabpwa_2"..userid}},
-{{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
+{{text ='• مساعد',callback_data=data.sender_user_id_.."Japwa"..userid}},
+{{text ='• مميز •',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text ='• ادمن',callback_data=data.sender_user_id_.."mod"..userid}},
 {{text ='• مدير',callback_data=data.sender_user_id_.."Manager"..userid}},
 {{text ='• منشئ',callback_data=data.sender_user_id_.."Constructor"..userid}},
@@ -17255,8 +17263,8 @@ else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
 {{text ='• مطور ثانوي',callback_data=data.sender_user_id_.."Jabpwa"..userid}},
-{{text ='• مساعد',callback_data=data.sender_user_id_.."Jabpwa_2"..userid}},
-{{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
+{{text ='• مساعد',callback_data=data.sender_user_id_.."Japwa"..userid}},
+{{text ='• مميز •',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text ='• ادمن',callback_data=data.sender_user_id_.."mod"..userid}},
 {{text ='• مدير',callback_data=data.sender_user_id_.."Manager"..userid}},
 {{text ='• منشئ',callback_data=data.sender_user_id_.."Constructor"..userid}},
@@ -17302,8 +17310,8 @@ else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
 {{text ='• مطور ثانوي',callback_data=data.sender_user_id_.."Jabpwa"..userid}},
-{{text ='• مساعد',callback_data=data.sender_user_id_.."Jabpwa_2"..userid}},
-{{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
+{{text ='• مساعد',callback_data=data.sender_user_id_.."Japwa"..userid}},
+{{text ='• مميز •',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text ='• ادمن',callback_data=data.sender_user_id_.."mod"..userid}},
 {{text ='• مدير',callback_data=data.sender_user_id_.."Manager"..userid}},
 {{text = '• رجوع •',callback_data=data.sender_user_id_.."Bbk"..userid}},
@@ -17345,7 +17353,7 @@ datainline = {
 else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
-{{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
+{{text ='• مميز •',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text ='• ادمن',callback_data=data.sender_user_id_.."mod"..userid}},
 {{text = '• رجوع •',callback_data=data.sender_user_id_.."Bbk"..userid}},
 {{text = '【 𝗦𝗼𝘂𝗿𝗰𝗲 𝗦𝗮𝗶𝗱𝗶 】', url="t.me/S_a_i_d_i"}},
@@ -17385,7 +17393,7 @@ datainline = {
 else
 datainlineText = "لا يمتلك رتبه"
 datainline = {
-{{text ='• مميز',callback_data=data.sender_user_id_.."Special"..userid}},
+{{text ='• مميز •',callback_data=data.sender_user_id_.."Special"..userid}},
 {{text = '• رجوع •',callback_data=data.sender_user_id_.."Bbk"..userid}},
 {{text = '【 𝗦𝗼𝘂𝗿𝗰𝗲 𝗦𝗮𝗶𝗱𝗶 】', url="t.me/S_a_i_d_i"}},
 }
@@ -17955,7 +17963,7 @@ if Text and Text:match("^(%d+)DelLsta(.*)$") then
 local notId  = Text:match("(%d+)")  
 local userid = Text:gsub('DelLsta',''):gsub(notId,'')
 if tonumber(data.sender_user_id_) ~= tonumber(notId) then  
-local notText = '⌯︙عذرا الاوامر هذه لا تخصك'
+local notText = '✘ عذرا الاوامر هذه لا تخصك'
 https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
 return false
 end
@@ -18056,541 +18064,6 @@ else
 send(msg.chat_id_, msg.id_,' ☽ لا يوجد رابط ارسل ضع رابط') 
 end 
 end,nil) 
-end
-if Text and Text:match("^/t7kmrtb1 (.*)$") then
-local userid = Text:match("^/t7kmrtb1 (.*)$")
-if not Mod(data) then
-local notText = '✘ يجب ان تكون ادمن للضغط هنا'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-local Teext = 'اضغط علي زراير لتنزيل الرتبه'
-keyboard = {} 
-keyboard.inline_keyboard = {
-{
-{text = '• مطور •', callback_data="/t7kmrtb1_2 "..userid},{text = '• مطور ثانوي •', callback_data="/t7kmrtb1_1 "..userid},
-},
-{{text = '• مساعد •', callback_data="/t7kmrtb2_320 "..userid}},
-{
-{text = '• منشئ •', callback_data="/t7kmrtb1_5 "..userid},{text = '• منشئ اساسي •', callback_data="/t7kmrtb1_4 "..userid},
-},
-{
-{text = '• مالك •', callback_data="/t7kmrtb1_3 "..userid},{text = '• مدير •', callback_data="/t7kmrtb1_6 "..userid},
-},
-{
-{text = '• ادمن •', callback_data="/t7kmrtb1_7 "..userid},{text = '• مميز •', callback_data="/t7kmrtb1_8 "..userid},
-},
-{
-{text = '• اخفاء القائمه •', callback_data="/hide"},
-},
-}
-local msg_id = msg.id_/2097152/0.5
-https.request("https://api.telegram.org/bot"..token..'/sendMessage?chat_id=' .. msg.chat_id_ .. '&text=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
-return false
-end
-
-if Text and Text:match("^/t7kmrtb2 (.*)$") then
-local userid = Text:match("^/t7kmrtb2 (.*)$")
-if not Mod(data) then
-local notText = 'متلعبش ف زراير ي سكر '
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-local Teext = 'اضغط ع زراير للرفع رتبه'
-keyboard = {} 
-keyboard.inline_keyboard = {
-{
-{text = '• مطور •', callback_data="/t7kmrtb2_2 "..userid},{text = '• مطور ثانوي •', callback_data="/t7kmrtb2_1 "..userid},
-},
-{{text = '• مساعد •', callback_data="/t7kmrtb2_300 "..userid}},
-{
-{text = '• منشئ •', callback_data="/t7kmrtb2_5 "..userid},{text = '• منشئ اساسي •', callback_data="/t7kmrtb2_4 "..userid},
-},
-{
-{text = '• مالك •', callback_data="/t7kmrtb2_3 "..userid},{text = '• مدير •', callback_data="/t7kmrtb2_6 "..userid},
-},
-{
-{text = '• ادمن •', callback_data="/t7kmrtb2_7 "..userid},{text = '• مميز •', callback_data="/t7kmrtb2_8 "..userid},
-},
-{
-{text = '• اخفاء القائمه •', callback_data="/hide"},
-},
-}
-return https.request("https://api.telegram.org/bot"..token..'/editMessageText?chat_id='..Chat_id..'&text='..URL.escape(Teext)..'&message_id='..msg_idd..'&parse_mode=markdown&disable_web_page_preview=true&reply_markup='..JSON.encode(keyboard)) 
-end
-
-
-if Text and Text:match("^/t7kmrtb2_2 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_2 (.*)$")
-if not msa3d(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-bot_data:sadd(ban_id.."Sudo:User", userid)
-Reply_Status(msg,userid,"reply"," ☽ تم ترقيته مطور في بوت")  
-return false 
-end
-
-if Text and Text:match("^/t7kmrtb2_1 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_1 (.*)$")
-if not msa3d(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-bot_data:sadd(ban_id.."Dev:ban:2", userid)
-Reply_Status(msg,userid,"reply"," ☽ تم ترقيته مطور ثانوي في البوت")  
-return false 
-end
-
-if Text and Text:match("^/t7kmrtb2_300 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_300 (.*)$")
-if not msa3d(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-bot_data:sadd(ban_id.."msa3d:ban", userid)
-Reply_Status(msg,userid,"reply"," ☽ تم ترقيته مساعد في البوت")  
-return false 
-end
-
-if Text and Text:match("^/t7kmrtb2_4 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_4 (.*)$")
-if not CoSu(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:sadd(ban_id..'Basic:Constructor'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم ترقيته منشئ اساسي'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم ترقيته منشئ اساسي'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
-end
-
-if Text and Text:match("^/t7kmrtb2_5 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_5 (.*)$")
-if not BasicConstructor(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:sadd(ban_id..'Constructor'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم ترقيته منشئ'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم ترقيته منشئ'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-end
-
-if Text and Text:match("^/t7kmrtb2_6 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_6 (.*)$")
-if not Constructor(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:sadd(ban_id..'Manager'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم ترقيته مدير'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم ترقيته مدير'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
-end  
-
-if Text and Text:match("^/t7kmrtb2_8 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_8 (.*)$")
-if not Manager(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-if bot_data:get(ban_id..'Lock:Add:Bot'..msg.chat_id_) and not Constructor(msg) then
-send(msg.chat_id_, msg.id_,' ☽ تم تعطيل الرفع') 
-return false
-end
-bot_data:sadd(ban_id..'Mod:User'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم ترقيته ادمن'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم ترقيته ادمن'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
-end
-
-if Text and Text:match("^/t7kmrtb2_7 (.*)$") then
-local userid = Text:match("^/t7kmrtb2_7 (.*)$")
-if not Manager(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-if bot_data:get(ban_id..'Lock:Add:Bot'..msg.chat_id_) and not Constructor(msg) then
-send(msg.chat_id_, msg.id_,' ☽ تم تعطيل الرفع') 
-return false
-end
-bot_data:sadd(ban_id..'Special:User'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-local  statuss  = '\n ☽ تم ترقيته مميز'
-send(msg.chat_id_, msg.id_, usertext..statuss)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-local  statuss  = '\n ☽ تم ترقيته مميز'
-send(msg.chat_id_, msg.id_, usertext..statuss)
-end;end,nil)
-return false
-end
-if Text and Text:match("^/t7kmrtb1_2 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_2 (.*)$")
-if not msa3d(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'Sudo:User', userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من المطورين'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من المطورين'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false 
-end
-
-if Text and Text:match("^/t7kmrtb1_1 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_1 (.*)$")
-if not msa3d(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-bot_data:srem(ban_id.."Dev:ban:2", userid)
-Reply_Status(msg,userid,"reply","☽ تم تنزيله من المطور ثانويين")  
-return false 
-end
-
-if Text and Text:match("^/t7kmrtb1_2 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_2 (.*)$")
-if not msa3d(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'Sudo:User', userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من المطورين'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من المطورين'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false 
-end
-
-if Text and Text:match("^/t7kmrtb1_320 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_320 (.*)$")
-if not msa3d(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'msa3d:ban', userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من المطورين الثانوين'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من المطورين الثانوين'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false 
-end
-
-if Text and Text:match("^/t7kmrtb1_4 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_4 (.*)$")
-if not CoSu(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'Basic:Constructor'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من الاساسيين'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من الاساسيين'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
-end
-
-if Text and Text:match("^/t7kmrtb1_3 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_3 (.*)$")
-if not CoSu(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'CoSu'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من مالك'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من مالك'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
-end
-
-if Text and Text:match("^/t7kmrtb1_5 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_5 (.*)$")
-if not BasicConstructor(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'Constructor'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من المنشئين'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من المنشئين'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-end
-
-if Text and Text:match("^/t7kmrtb1_6 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_6 (.*)$")
-if not Constructor(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'Manager'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من المدراء'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من المدراء'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
-end
-
-if Text and Text:match("^/t7kmrtb1_7 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_7 (.*)$")
-if not Manager(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'Mod:User'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من الادمنيه'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n ☽ الـعـضو  ⇇ '..userid..''
-status  = '\n ☽ تم تنزيله من الادمنيه'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
-end
-
-if Text and Text:match("^/t7kmrtb1_8 (.*)$") then
-local userid = Text:match("^/t7kmrtb1_8 (.*)$")
-if not Mod(data) then
-local notText = 'يجب ان تكون رتبتك اعلي لاستخدام هذا الامر'
-https.request("https://api.telegram.org/bot"..token.."/answerCallbackQuery?callback_query_id="..data.id_.."&text="..URL.escape(notText).."&show_alert=true")
-return false
-end
-if AddChannel(msg.sender_user_id_) == false then
-local textchuser = bot_data:get(ban_id..'text:ch:user')
-if textchuser then
-send(msg.chat_id_, msg.id_,'['..textchuser..']')
-else
-send(msg.chat_id_, msg.id_,' ☽ لا تستطيع استخدام البوت \n ☽  يرجى الاشتراك بالقناه اولا \n ☽  اشترك هنا ['..bot_data:get(ban_id..'add:ch:username')..']')
-end
-return false
-end
-bot_data:srem(ban_id..'Special:User'..msg.chat_id_, userid)
-tdcli_function ({ID = "GetUser",user_id_ = userid},function(arg,data) 
-if data.first_name_ then
-usertext = '\n ☽ الـعـضو ⇇ ['..data.first_name_..'](t.me/'..(data.username_ or 'g_00_l_d')..')'
-status  = '\n ☽ تم تنزيله من المميزين'
-send(msg.chat_id_, msg.id_, usertext..status)
-else
-usertext = '\n الـعـضو '..userid..''
-status  = '\n ☽ تم تنزيله من المميزين'
-send(msg.chat_id_, msg.id_, usertext..status)
-end;end,nil)
-return false
 end
 
 if Text == '/help1' then
